@@ -8,5 +8,8 @@
 </head>
 <body>
   <?php  require_once 'app.php';  ?>
+
+  <script src="./scripts/jquery-3.4.1.min.js"></script>
+  <script src="./scripts/script.js"></script>
 </body>
 </html>
