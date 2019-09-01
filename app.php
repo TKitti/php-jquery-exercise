@@ -4,22 +4,23 @@ include "config.php";
 class Staff
 {
   public $name;
+  public $connection_to_db;
 
-  function __construct ($inputName)
+  function __construct ($input_name, $input_connection)
   {
-    $this->name = $inputName;
+    $this->name = $input_name;
+    $this->connection_to_db = $input_connection;
   }
 
   //fn: sends data about employee to client
-  //param: from which database the function takes data
-  public function sendData($connectionToDb)
+  public function sendData()
   {
     // set response header
     header('Content-type: application/json');
 
     // get all necessary data from database
     $mysqlQuery = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no";
-    $query = mysqli_query($connectionToDb, $mysqlQuery);
+    $query = mysqli_query($this->connection_to_db, $mysqlQuery);
 
     $res = [];
 
@@ -34,8 +35,7 @@ class Staff
   }
 
   //fn: changes data in database according to the information received in the request body from the client
-  //param: in which database the modification has to be executed
-  public function changeData($connectionToDb)
+  public function changeData()
   {
     //get json as a string from request body
     $json_str = file_get_contents('php://input');
@@ -60,22 +60,22 @@ class Staff
       $mysql_query = "UPDATE dept_emp SET $dept_no = $data WHERE emp_no = $employee_id";
     }
 
-    mysqli_query($connectionToDb, $mysql_query);
+    mysqli_query($this->connection_to_db, $mysql_query);
   }
 
   //fn: deletes one employee record in database based on id get from query string
   //deletes records in related tables based on cascade delete
-  public function deleteEmployee($connectionToDb)
+  public function deleteEmployee()
   {
     $employee_id = $_REQUEST["id"];
     $sql = "DELETE FROM employees WHERE emp_no = $employee_id";
-    mysqli_query($connectionToDb, $sql);
+    mysqli_query($this->connection_to_db, $sql);
   }
 }
 
-$testStaff = new Staff("test");
-// $testStaff->sendData($conn);
-// $testStaff->changeData($conn);
+$testStaff = new Staff("test", $conn);
+// $testStaff->sendData();
+$testStaff->changeData();
 // $testStaff->deleteEmployee($conn);
 
 ?>
