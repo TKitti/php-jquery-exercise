@@ -37,14 +37,38 @@ function changeDataInDb($connection, $field, $id, $data)
   } elseif ($field === "title") {
     $sql = "UPDATE titles SET title = '$data' WHERE emp_no = $id";
   } elseif ($field === "dept_name") {
-    $dept_no = "SELECT dept_no FROM departments WHERE dept_name = $data";
-    $sql = "UPDATE dept_emp SET $dept_no = $data WHERE emp_no = $id";
+    $num = getDepartmentNumber($connection, $data);
+    $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
   }
 
   if (mysqli_query($connection, $sql)) {
     echo "Record was updated successfully.";
   } else {
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
+  }
+}
+
+
+//returns department number on the basis of the department name
+//param1: defines which database to connect to
+//param2: defines department name
+function getDepartmentNumber($connection, $data)
+{
+  $sql = "SELECT dept_no FROM departments WHERE dept_name = '$data'";
+  $response = [];
+
+  if ($result = mysqli_query($connection, $sql)) {
+    if (mysqli_num_rows($result) > 0) {
+      // fetch database response as array
+      while ($row = mysqli_fetch_array($result)) {
+        $response[] = $row;
+      }
+      return $response[0][0];
+    } else {
+      echo "No records matching your query were found.";
+    }
+  } else {
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
   }
 }
 
