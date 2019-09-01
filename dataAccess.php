@@ -35,7 +35,7 @@ function changeDataInDb($connection, $field, $id, $data)
   if ($field === "salary") {
     $sql = "UPDATE salaries SET salary = $data WHERE emp_no = $id";
   } elseif ($field === "title") {
-    $sql = "UPDATE titles SET title = $data WHERE emp_no = $id";
+    $sql = "UPDATE titles SET title = '$data' WHERE emp_no = $id";
   } elseif ($field === "dept_name") {
     $dept_no = "SELECT dept_no FROM departments WHERE dept_name = $data";
     $sql = "UPDATE dept_emp SET $dept_no = $data WHERE emp_no = $id";
