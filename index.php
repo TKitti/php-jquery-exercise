@@ -7,9 +7,25 @@
   <title>Employees</title>
 </head>
 <body>
-  <?php  require_once 'app.php';  ?>
+  <div class="container">
+    <table id="employeesTable" border="1">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Birth date</th>
+          <th>Hire date</th>
+          <th>Title</th>
+          <th>Department</th>
+          <th>Salary</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
-  <script src="./scripts/jquery-3.4.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="./scripts/script.js"></script>
 </body>
 </html>

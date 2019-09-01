@@ -51,7 +51,7 @@ class Staff
 }
 
 $testStaff = new Staff("test", $conn);
-// $testStaff->sendData();
+$testStaff->sendData();
 // $testStaff->changeData();
 // $testStaff->deleteEmployee();
 
