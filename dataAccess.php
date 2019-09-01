@@ -39,6 +39,14 @@ function changeDataInDb($connection, $field, $id, $data)
   } elseif ($field === "dept_name") {
     $num = getDepartmentNumber($connection, $data);
     $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
+  } elseif ($field === "birth_date") {
+    $sql = "UPDATE employees SET birth_date = '$data' WHERE emp_no = $id";
+  } elseif ($field === "first_name") {
+    $sql = "UPDATE employees SET first_name = '$data' WHERE emp_no = $id";
+  } elseif ($field === "last_name") {
+    $sql = "UPDATE employees SET last_name = '$data' WHERE emp_no = $id";
+  } elseif ($field === "hire_date") {
+    $sql = "UPDATE employees SET hire_date = '$data' WHERE emp_no = $id";
   }
 
   if (mysqli_query($connection, $sql)) {
