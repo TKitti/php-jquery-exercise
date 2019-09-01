@@ -62,10 +62,20 @@ class Staff
 
     mysqli_query($connectionToDb, $mysql_query);
   }
+
+  //fn: deletes one employee record in database based on id get from query string
+  //deletes records in related tables based on cascade delete
+  public function deleteEmployee($connectionToDb)
+  {
+    $employee_id = $_REQUEST["id"];
+    $sql = "DELETE FROM employees WHERE emp_no = $employee_id";
+    mysqli_query($connectionToDb, $sql);
+  }
 }
 
 $testStaff = new Staff("test");
 // $testStaff->sendData($conn);
 // $testStaff->changeData($conn);
+// $testStaff->deleteEmployee($conn);
 
 ?>
