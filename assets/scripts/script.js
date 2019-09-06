@@ -30,4 +30,37 @@ $(document).ready(function() {
       }
     }
   });
+
+  var arrowUp = $('.arrow-up');
+  var arrowDown = $('.arrow-down');
+  arrowDown.hide();
+
+  arrowUp.click(function() {
+    const headerIndex = $(this).parent().index();
+    sortByCategory(headerIndex, 'desc');
+    arrowUp.hide();
+    arrowDown.show();
+  });
+
+  arrowDown.click(function() {
+    const headerIndex = $(this).parent().index();
+    sortByCategory(headerIndex, 'asc');
+    arrowUp.show();
+    arrowDown.hide();
+  });
+
+  function sortByCategory(index, order) {
+    var tbody = $('.table-body');
+
+    tbody
+      .find('tr')
+      .sort(function(a, b) {
+        if (order === 'asc') {
+          return $(`td:eq(${index})`, a).text().localeCompare($(`td:eq(${index})`, b).text());
+        } else {
+          return $(`td:eq(${index})`, b).text().localeCompare($(`td:eq(${index})`, a).text());
+        }
+      })
+      .appendTo(tbody);
+  }
 });
