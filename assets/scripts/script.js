@@ -16,14 +16,14 @@ $(document).ready(function() {
         var salary = response[i]['salary'];
 
         var tr_str = "<tr>" +
-          "<td align='center'>" + (i+1) + "</td>" +
-          "<td align='center'>" + lastName + ", " + firstName + "</td>" +
-          "<td align='center'>" + gender + "</td>" +
-          "<td align='center'>" + birthDate + "</td>" +
-          "<td align='center'>" + hireDate + "</td>" +
-          "<td align='center'>" + title + "</td>" +
-          "<td align='center'>" + department + "</td>" +
-          "<td align='center'>" + salary + "</td>" +
+          "<td>" + (i+1) + "</td>" +
+          "<td>" + lastName + ", " + firstName + "</td>" +
+          "<td>" + gender + "</td>" +
+          "<td>" + birthDate + "</td>" +
+          "<td>" + hireDate + "</td>" +
+          "<td>" + title + "</td>" +
+          "<td>" + department + "</td>" +
+          "<td>" + salary + "</td>" +
           "</tr>";
 
         $('#employeesTable tbody').append(tr_str);

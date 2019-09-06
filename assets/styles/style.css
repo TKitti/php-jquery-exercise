@@ -1,0 +1,19 @@
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center;
+}
+
+th, td {
+  padding: 10px;
+}
+
+.arrow-up, .arrow-down {
+  cursor: pointer;
+}

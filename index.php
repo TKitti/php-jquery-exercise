@@ -12,7 +12,7 @@
 </head>
 <body>
   <div class="container">
-    <table id="employeesTable" border="1">
+    <table id="employeesTable">
       <thead>
         <tr>
           <th></th>
