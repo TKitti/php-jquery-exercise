@@ -1,3 +1,7 @@
+.cancel-btn {
+  margin: 15px 0;
+}
+
 table, th, td {
   border: 1px solid black;
 }
@@ -16,4 +20,8 @@ th, td {
 
 .arrow-up, .arrow-down {
   cursor: pointer;
+}
+
+.hover {
+  color: red;
 }

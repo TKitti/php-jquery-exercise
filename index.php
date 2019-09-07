@@ -12,12 +12,25 @@
 </head>
 <body>
   <div class="container">
+    <div class="search-container">
+      <input type="text" name="search" id="search-field" placeholder="type keyword">
+      <select id="filter-options">
+        <option value="">--Please choose a category--</option>
+        <option value="name">Name</option>
+        <option value="birthDate">Birth date</option>
+        <option value="hireDate">Hire date</option>
+        <option value="title">Title</option>
+        <option value="department">Department</option>
+      </select>
+      <button class="search-btn">search</button>
+    </div>
+    <button class="cancel-btn">cancel search</button>
     <table id="employeesTable">
       <thead>
         <tr>
           <th></th>
-          <th>Name <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
           <th>Gender</th>
+          <th>Name <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
           <th>Birth date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
           <th>Hire date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
           <th>Title <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
