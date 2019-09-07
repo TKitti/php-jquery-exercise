@@ -83,7 +83,7 @@ function getEmployeeData (offset, limit) {
     }
 
     function getSelectedOption() {
-      return $('#filter-options').find(":selected").index() + 1;
+      return $('#filter-options').find(":selected").index();
     }
 
     function clearSearchField() {
