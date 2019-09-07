@@ -1,42 +1,37 @@
 //when page loads, show data about employees in a table
+var employeesPerPage = 10;
+var firstEmployeeToShow = 0;
+var totalEmployees;
+
 $(document).ready(function() {
-  $firstEmployeeToShow = 0;
-  getEmployeeData($firstEmployeeToShow);
+  getEmployeeData(firstEmployeeToShow, employeesPerPage);
+  
+  $('.next-btn').click(function(){
+    firstEmployeeToShow += employeesPerPage;
+    if (firstEmployeeToShow <= totalEmployees) {
+      getEmployeeData(firstEmployeeToShow, employeesPerPage);
+    }
+  });
+
+  $('.prev-btn').click(function(){
+    firstEmployeeToShow -= employeesPerPage;
+    if (firstEmployeeToShow < 0){
+      firstEmployeeToShow = 0;
+    }
+    getEmployeeData(firstEmployeeToShow, employeesPerPage);
+  });
 });
 
-function getEmployeeData ($offset) {
-  $employeesPerPage = 5;
+function getEmployeeData (offset, limit) {
   $.ajax({
-    url: `app.php?employeesPerPage=${$employeesPerPage}&firstEmployeeToShow=${$offset}`,
+    url: `app.php?employeesPerPage=${limit}&firstEmployeeToShow=${offset}`,
     type: 'get',
     dataType: 'JSON',
     success: function(response) {
-      for (var i = 0; i < response.length; i++) {
-        var firstName = response[i]['first_name'];
-        var lastName = response[i]['last_name'];
-        var gender = response[i]['gender'];
-        var birthDate = response[i]['birth_date'];
-        var hireDate = response[i]['hire_date'];
-        var title = response[i]['title'];
-        var department = response[i]['dept_name'];
-        var salary = response[i]['salary'];
-
-        var tr_str = "<tr>" +
-          "<td>" + (i+1) + "</td>" +
-          "<td>" + gender + "</td>" +
-          "<td>" + lastName + ", " + firstName + "</td>" +
-          "<td>" + birthDate + "</td>" +
-          "<td>" + hireDate + "</td>" +
-          "<td>" + title + "</td>" +
-          "<td>" + department + "</td>" +
-          "<td>" + salary + "</td>" +
-          "</tr>";
-
-        $('#employeesTable tbody').append(tr_str);
-      }
+      createTable(response);
     }
   }).done(function(){
-  
+    
     var arrowUp = $('.arrow-up');
     var arrowDown = $('.arrow-down');
     arrowDown.hide();
@@ -109,4 +104,35 @@ function getEmployeeData ($offset) {
       clearDropdownMenu();
     }
   });
+}
+
+function createTable (data, total) {
+  $('#employeesTable tbody tr').remove();
+
+  for (var i = 0; i < data.length; i++) {
+    if (i == 0) {
+      totalEmployees = data[i]['total'];
+    } else {
+      var firstName = data[i]['first_name'];
+      var lastName = data[i]['last_name'];
+      var gender = data[i]['gender'];
+      var birthDate = data[i]['birth_date'];
+      var hireDate = data[i]['hire_date'];
+      var title = data[i]['title'];
+      var department = data[i]['dept_name'];
+      var salary = data[i]['salary'];
+  
+      var tr_str = "<tr>" +
+        "<td>" + gender + "</td>" +
+        "<td>" + lastName + ", " + firstName + "</td>" +
+        "<td>" + birthDate + "</td>" +
+        "<td>" + hireDate + "</td>" +
+        "<td>" + title + "</td>" +
+        "<td>" + department + "</td>" +
+        "<td>" + salary + "</td>" +
+        "</tr>";
+  
+      $('#employeesTable tbody').append(tr_str);
+    }
+  }
 }

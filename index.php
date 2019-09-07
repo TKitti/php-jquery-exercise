@@ -25,21 +25,26 @@
       <button class="search-btn">search</button>
     </div>
     <button class="cancel-btn">cancel search</button>
-    <table id="employeesTable">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Gender</th>
-          <th>Name <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
-          <th>Birth date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
-          <th>Hire date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
-          <th>Title <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
-          <th>Department <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
-          <th>Salary</th>
-        </tr>
-      </thead>
-      <tbody class="table-body"></tbody>
-    </table>
+    <div class="table-container">
+      <table id="employeesTable">
+        <thead>
+          <tr>
+            <th>Gender</th>
+            <th>Name <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
+            <th>Birth date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
+            <th>Hire date <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
+            <th>Title <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
+            <th>Department <span class="ui-icon ui-icon-triangle-1-n arrow-up"></span><span class="ui-icon ui-icon-triangle-1-s arrow-down"></span></th>
+            <th>Salary</th>
+          </tr>
+        </thead>
+        <tbody class="table-body"></tbody>
+      </table>
+      <div class="page-navigation">
+        <button class="prev-btn">prev</button>
+        <button class="next-btn">next</button>
+      </div>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

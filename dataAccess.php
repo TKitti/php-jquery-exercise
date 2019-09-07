@@ -5,7 +5,10 @@
 function getDataFromDb($connection, $limit, $offset)
 {
   $sql = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no LIMIT $limit OFFSET $offset";
+  $totalEmployees = getTotalOfEmployees($connection);
   $response = [];
+
+  $response[] = array("total" => $totalEmployees);
 
   if ($result = mysqli_query($connection, $sql)) {
     if (mysqli_num_rows($result) > 0) {
@@ -40,6 +43,12 @@ function getDataFromDb($connection, $limit, $offset)
   }
 }
 
+function getTotalOfEmployees($connection){
+  $sql = "SELECT COUNT(*) as total FROM employees";
+  $result = mysqli_query($connection,$sql);
+  $fetch_result = mysqli_fetch_array($result);
+  return $fetch_result['total'];
+}
 
 //modifies certain data in database
 //param1: defines which database to connect to
