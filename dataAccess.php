@@ -2,16 +2,34 @@
 
 //get all necessary data from database
 //param: defines which database to connect to
-function getDataFromDb($connection)
+function getDataFromDb($connection, $limit, $offset)
 {
-  $sql = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no";
+  $sql = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no LIMIT $limit OFFSET $offset";
   $response = [];
 
   if ($result = mysqli_query($connection, $sql)) {
     if (mysqli_num_rows($result) > 0) {
       // fetch database response as array
       while ($row = mysqli_fetch_array($result)) {
-        $response[] = $row;
+        $first_name = $row['first_name'];
+        $last_name = $row['last_name'];
+        $gender = $row['gender'];
+        $birth_date = $row['birth_date'];
+        $hire_date = $row['hire_date'];
+        $title = $row['title'];
+        $dept_name = $row['dept_name'];
+        $salary = $row['salary'];
+
+        $response[] = array(
+          "first_name" => $first_name, 
+          "last_name" => $last_name, 
+          "gender" => $gender,
+          "birth_date" => $birth_date,
+          "hire_date" => $hire_date,
+          "title" => $title,
+          "dept_name" => $dept_name,
+          "salary" => $salary
+        );
       }
       return $response;
     } else {

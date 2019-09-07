@@ -20,7 +20,11 @@ class Staff
     // set response header
     header('Content-type: application/json');
 
-    $response = getDataFromDb($this->connection_to_db);
+    //retrieve data from query string
+    $employees_per_page = $_REQUEST["employeesPerPage"];
+    $first_employee_to_show = $_REQUEST["firstEmployeeToShow"];
+
+    $response = getDataFromDb($this->connection_to_db, $employees_per_page, $first_employee_to_show);
 
     // send data to client
     echo json_encode($response);

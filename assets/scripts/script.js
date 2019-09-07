@@ -1,7 +1,13 @@
 //when page loads, show data about employees in a table
 $(document).ready(function() {
+  $firstEmployeeToShow = 0;
+  getEmployeeData($firstEmployeeToShow);
+});
+
+function getEmployeeData ($offset) {
+  $employeesPerPage = 5;
   $.ajax({
-    url: 'app.php',
+    url: `app.php?employeesPerPage=${$employeesPerPage}&firstEmployeeToShow=${$offset}`,
     type: 'get',
     dataType: 'JSON',
     success: function(response) {
@@ -103,4 +109,4 @@ $(document).ready(function() {
       clearDropdownMenu();
     }
   });
-});
+}
