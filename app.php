@@ -44,7 +44,7 @@ class Staff
 
   /**
    * retrieves data as json from request body
-   * converts json string into object
+   * converts json string into json object
    * passes object to service layer in order to change employee data
    * 
    * @access public

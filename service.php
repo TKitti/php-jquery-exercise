@@ -1,9 +1,12 @@
 <?php
 
-//converts data received as json to object, then array
-//and saves data into variables
-//param1: defines which database to connect to
-//param2: data in request body is the data which needs to be converted
+/**
+ * converts data received as json to object, then array
+ * passes data to database access layer in order to change employee data
+ * 
+ * @param  $connection   which database the program connects to
+ * @param object $req_body   employee id and field to be modified
+ */
 function convertData($connection, $req_body)
 {
   $employee_id = $req_body->id;
