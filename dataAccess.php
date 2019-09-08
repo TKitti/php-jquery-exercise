@@ -11,10 +11,10 @@
 function getDataFromDb($connection, $limit, $offset)
 {
   $sql = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no LIMIT $limit OFFSET $offset";
-  $totalEmployees = getTotalOfEmployees($connection);
+  $total_employees = getTotalOfEmployees($connection);
   $response = [];
 
-  $response[] = array("total" => $totalEmployees);
+  $response[] = array("total" => $total_employees);
 
   if ($result = mysqli_query($connection, $sql)) {
     if (mysqli_num_rows($result) > 0) {
