@@ -4,7 +4,7 @@ let totalEmployees;
  * when DOM is ready for JavaScript code, table is rendered and prev,next buttons are available
  */
 $(document).ready(function() {
-  const employeesPerPage = 10;
+  const employeesPerPage = 20;
   let firstEmployeeToShow = 0;
 
   getEmployeeData(firstEmployeeToShow, employeesPerPage);
