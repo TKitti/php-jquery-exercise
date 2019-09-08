@@ -3,8 +3,8 @@
 /**
  * gets all necessary data from database
  * 
- * @param  $connection   which database the program connects to
- * @param integer $limit   number of rows to be retrieved from db
+ * @param object $connection  which database the program connects to
+ * @param integer $limit  number of rows to be retrieved from db
  * @param integer $offset  from which row data is retrieved
  * @return array  data about employees
  */
@@ -52,7 +52,7 @@ function getDataFromDb($connection, $limit, $offset)
 /**
  * gets the number of total employees in the database
  * 
- * @param  $connection   which database the program connects to
+ * @param object $connection  which database the program connects to
  * @return integer  total number of employees
  */
 function getTotalOfEmployees($connection){
@@ -65,10 +65,10 @@ function getTotalOfEmployees($connection){
 /**
  * changes certain data about one employee in the database
  * 
- * @param  $connection   which database the program connects to
- * @param string $field  the colomn in the database
- * @param integer $id    id of the employee whose data needs to be changed
- * @param string/integer $data   the modified data to be saved in the database
+ * @param object $connection    which database the program connects to
+ * @param string $field         the colomn in the database
+ * @param integer $id           id of the employee whose data needs to be changed
+ * @param string/integer $data  the modified data to be saved in the database
  */
 function changeDataInDb($connection, $field, $id, $data)
 {
@@ -101,8 +101,8 @@ function changeDataInDb($connection, $field, $id, $data)
 /**
  * retrieves the department number belonging to one department from the database
  * 
- * @param  $connection   which database the program connects to
- * @param string $data   department name
+ * @param object $connection  which database the program connects to
+ * @param string $data        department name
  * @return integer  department number
  */
 function getDepartmentNumber($connection, $data)
@@ -128,8 +128,8 @@ function getDepartmentNumber($connection, $data)
 /**
  * deletes one employee record in table employees and records in related tables based on cascade delete
  * 
- * @param  $connection   which database the program connects to
- * @param integer $id    id of the employee whose data needs to be deleted
+ * @param object $connection  which database the program connects to
+ * @param integer $id         id of the employee whose data needs to be deleted
  */
 function deleteEmployeeInDb($connection, $id)
 {

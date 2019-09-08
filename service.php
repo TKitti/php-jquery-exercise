@@ -4,8 +4,8 @@
  * converts data received as json to object, then array
  * passes data to database access layer in order to change employee data
  * 
- * @param  $connection   which database the program connects to
- * @param object $req_body   employee id and field to be modified
+ * @param object $connection  which database the program connects to
+ * @param object $req_body    employee id and field to be modified
  */
 function convertData($connection, $req_body)
 {
