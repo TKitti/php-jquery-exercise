@@ -1,11 +1,11 @@
-var totalEmployees;
+let totalEmployees;
 
 /**
  * when DOM is ready for JavaScript code, table is rendered and prev,next buttons are available
  */
 $(document).ready(function() {
-  var employeesPerPage = 10;
-  var firstEmployeeToShow = 0;
+  const employeesPerPage = 10;
+  let firstEmployeeToShow = 0;
 
   getEmployeeData(firstEmployeeToShow, employeesPerPage);
   
@@ -50,8 +50,8 @@ function getEmployeeData (offset, limit) {
      * filter and sort functionalities are available after the client successfully received the data from the server
      */
   }).done(function(){
-    var arrowUp = $('.arrow-up');
-    var arrowDown = $('.arrow-down');
+    let arrowUp = $('.arrow-up');
+    let arrowDown = $('.arrow-down');
     arrowDown.hide();
 
     arrowUp.click(function() {
@@ -81,20 +81,20 @@ function getEmployeeData (offset, limit) {
 function createTable (data) {
   $('#employeesTable tbody tr').remove();
 
-  for (var i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     if (i == 0) {
       totalEmployees = data[i]['total'];
     } else {
-      var firstName = data[i]['first_name'];
-      var lastName = data[i]['last_name'];
-      var gender = data[i]['gender'];
-      var birthDate = data[i]['birth_date'];
-      var hireDate = data[i]['hire_date'];
-      var title = data[i]['title'];
-      var department = data[i]['dept_name'];
-      var salary = data[i]['salary'];
+      let firstName = data[i]['first_name'];
+      let lastName = data[i]['last_name'];
+      let gender = data[i]['gender'];
+      let birthDate = data[i]['birth_date'];
+      let hireDate = data[i]['hire_date'];
+      let title = data[i]['title'];
+      let department = data[i]['dept_name'];
+      let salary = data[i]['salary'];
   
-      var tr_str = "<tr>" +
+      let tr_str = "<tr>" +
         "<td>" + gender + "</td>" +
         "<td>" + lastName + ", " + firstName + "</td>" +
         "<td>" + birthDate + "</td>" +
@@ -116,7 +116,7 @@ function createTable (data) {
  * @param {Number} order  the way the table is sorted
  */
 function sortByCategory(index, order) {
-  var tbody = $('.table-body');
+  const tbody = $('.table-body');
   tbody
     .find('tr')
     .sort(function(a, b) {
@@ -134,7 +134,7 @@ function sortByCategory(index, order) {
  */
 function hideUnmatchedRows() {
   $('.table-body > tr').each(function(){
-    var cellText = $(this).find("td").eq(getSelectedOption()).html().toLowerCase();
+    let cellText = $(this).find("td").eq(getSelectedOption()).html().toLowerCase();
 
     if (cellText.indexOf(getSearchedText()) === -1) {
       $(this).hide();
