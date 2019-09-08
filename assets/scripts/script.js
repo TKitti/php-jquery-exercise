@@ -1,18 +1,28 @@
-//when page loads, show data about employees in a table
-var employeesPerPage = 10;
-var firstEmployeeToShow = 0;
 var totalEmployees;
 
+/**
+ * when DOM is ready for JavaScript code, table is rendered and prev,next buttons are available
+ */
 $(document).ready(function() {
+  var employeesPerPage = 10;
+  var firstEmployeeToShow = 0;
+
   getEmployeeData(firstEmployeeToShow, employeesPerPage);
   
+  /**
+   * shows the next amount of employees in the table
+   */
   $('.next-btn').click(function(){
     firstEmployeeToShow += employeesPerPage;
-    if (firstEmployeeToShow <= totalEmployees) {
-      getEmployeeData(firstEmployeeToShow, employeesPerPage);
+    if (firstEmployeeToShow > totalEmployees) {
+      firstEmployeeToShow -= employeesPerPage;
     }
+    getEmployeeData(firstEmployeeToShow, employeesPerPage);
   });
 
+  /**
+   * shows the previous amount of employees in the table
+   */
   $('.prev-btn').click(function(){
     firstEmployeeToShow -= employeesPerPage;
     if (firstEmployeeToShow < 0){
@@ -22,6 +32,12 @@ $(document).ready(function() {
   });
 });
 
+/**
+ * gets data about employees from the server
+ * 
+ * @param {Number} offset  from which employee the data is received
+ * @param {Number} limit   number of employees to be received
+ */
 function getEmployeeData (offset, limit) {
   $.ajax({
     url: `app.php?employeesPerPage=${limit}&firstEmployeeToShow=${offset}`,
@@ -30,8 +46,10 @@ function getEmployeeData (offset, limit) {
     success: function(response) {
       createTable(response);
     }
+    /**
+     * filter and sort functionalities are available after the client successfully received the data from the server
+     */
   }).done(function(){
-    
     var arrowUp = $('.arrow-up');
     var arrowDown = $('.arrow-down');
     arrowDown.hide();
@@ -50,63 +68,17 @@ function getEmployeeData (offset, limit) {
       arrowDown.hide();
     });
 
-    function sortByCategory(index, order) {
-      var tbody = $('.table-body');
-
-      tbody
-        .find('tr')
-        .sort(function(a, b) {
-          if (order === 'asc') {
-            return $(`td:eq(${index})`, a).text().localeCompare($(`td:eq(${index})`, b).text());
-          } else {
-            return $(`td:eq(${index})`, b).text().localeCompare($(`td:eq(${index})`, a).text());
-          }
-        })
-        .appendTo(tbody);
-    }
-
     $(".search-btn").click(filterTable);
     $('.cancel-btn').click(showAllRows);
-
-    function hideUnmatchedRows() {
-      $('.table-body > tr').each(function(){
-        var cellText = $(this).find("td").eq(getSelectedOption()).html().toLowerCase();
-
-        if (cellText.indexOf(getSearchedText()) === -1) {
-          $(this).hide();
-        }
-      });
-    }
-
-    function getSearchedText() {
-      return $("#search-field").val().toLowerCase();
-    }
-
-    function getSelectedOption() {
-      return $('#filter-options').find(":selected").index();
-    }
-
-    function clearSearchField() {
-      $("#search-field").val('');
-    }
-
-    function clearDropdownMenu() {
-      $('#filter-options').prop('selectedIndex', 0);
-    }
-
-    function showAllRows() {
-      $('.table-body > tr').show();
-    }
-
-    function filterTable() {
-      hideUnmatchedRows();
-      clearSearchField();
-      clearDropdownMenu();
-    }
   });
 }
 
-function createTable (data, total) {
+/**
+ * renders data in a table format
+ * 
+ * @param {Object} data  array of data about employees
+ */
+function createTable (data) {
   $('#employeesTable tbody tr').remove();
 
   for (var i = 0; i < data.length; i++) {
@@ -135,4 +107,79 @@ function createTable (data, total) {
       $('#employeesTable tbody').append(tr_str);
     }
   }
+}
+
+/**
+ * sorts table according to the actual column and order given by the user
+ * 
+ * @param {Number} index  the position of the column by which the table is sorted in the table
+ * @param {Number} order  the way the table is sorted
+ */
+function sortByCategory(index, order) {
+  var tbody = $('.table-body');
+  tbody
+    .find('tr')
+    .sort(function(a, b) {
+      if (order === 'asc') {
+        return $(`td:eq(${index})`, a).text().localeCompare($(`td:eq(${index})`, b).text());
+      } else {
+        return $(`td:eq(${index})`, b).text().localeCompare($(`td:eq(${index})`, a).text());
+      }
+    })
+    .appendTo(tbody);
+}
+
+/**
+ * hides rows which does not meet the search criteria
+ */
+function hideUnmatchedRows() {
+  $('.table-body > tr').each(function(){
+    var cellText = $(this).find("td").eq(getSelectedOption()).html().toLowerCase();
+
+    if (cellText.indexOf(getSearchedText()) === -1) {
+      $(this).hide();
+    }
+  });
+}
+
+/**
+ * gets the value of the search input field
+ * 
+ * @returns the text given by the user
+ */
+function getSearchedText() {
+  return $("#search-field").val().toLowerCase();
+}
+
+/**
+ * gets the index of the dropdown menu
+ * 
+ * @returns the position of the selected element in the dropdown menu
+ */
+function getSelectedOption() {
+  return $('#filter-options').find(":selected").index();
+}
+
+/**
+ * empties the search input field
+ */
+function clearSearchField() {
+  $("#search-field").val('');
+}
+
+/**
+ * sets the dropdown menu to default
+ */
+function clearDropdownMenu() {
+  $('#filter-options').prop('selectedIndex', 0);
+}
+
+function showAllRows() {
+  $('.table-body > tr').show();
+}
+
+function filterTable() {
+  hideUnmatchedRows();
+  clearSearchField();
+  clearDropdownMenu();
 }

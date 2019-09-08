@@ -24,7 +24,9 @@
       </select>
       <button class="search-btn">search</button>
     </div>
+
     <button class="cancel-btn">cancel search</button>
+    
     <div class="table-container">
       <table id="employeesTable">
         <thead>
