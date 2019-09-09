@@ -18,27 +18,8 @@ function getDataFromDb($connection, $limit, $offset)
 
   if ($result = mysqli_query($connection, $sql)) {
     if (mysqli_num_rows($result) > 0) {
-      // fetch database response as array
-      while ($row = mysqli_fetch_array($result)) {
-        $first_name = $row['first_name'];
-        $last_name = $row['last_name'];
-        $gender = $row['gender'];
-        $birth_date = $row['birth_date'];
-        $hire_date = $row['hire_date'];
-        $title = $row['title'];
-        $dept_name = $row['dept_name'];
-        $salary = $row['salary'];
-
-        $response[] = array(
-          "first_name" => $first_name, 
-          "last_name" => $last_name, 
-          "gender" => $gender,
-          "birth_date" => $birth_date,
-          "hire_date" => $hire_date,
-          "title" => $title,
-          "dept_name" => $dept_name,
-          "salary" => $salary
-        );
+      while ($row = mysqli_fetch_assoc($result)) {
+        $response[] = $row;
       }
       return $response;
     } else {
@@ -55,9 +36,10 @@ function getDataFromDb($connection, $limit, $offset)
  * @param object $connection  which database the program connects to
  * @return integer  total number of employees
  */
-function getTotalOfEmployees($connection){
+function getTotalOfEmployees($connection)
+{
   $sql = "SELECT COUNT(*) as total FROM employees";
-  $result = mysqli_query($connection,$sql);
+  $result = mysqli_query($connection, $sql);
   $fetch_result = mysqli_fetch_array($result);
   return $fetch_result['total'];
 }
@@ -66,7 +48,7 @@ function getTotalOfEmployees($connection){
  * changes certain data about one employee in the database
  * 
  * @param object $connection    which database the program connects to
- * @param string $field         the colomn in the database
+ * @param string $field         the column in the database
  * @param integer $id           id of the employee whose data needs to be changed
  * @param string/integer $data  the modified data to be saved in the database
  */
