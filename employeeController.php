@@ -30,12 +30,12 @@ class Staff
    * 
    * @access public
    */
-  public function sendData()
+  public function findEmployeesController()
   {
     $employees_per_page = $_REQUEST["employeesPerPage"];
     $first_employee_to_show = $_REQUEST["firstEmployeeToShow"];
     
-    $response = getDataFromDb($this->connection_to_db, $employees_per_page, $first_employee_to_show);
+    $response = findEmployees($this->connection_to_db, $employees_per_page, $first_employee_to_show);
     
     header('Content-type: application/json');
     echo json_encode($response);
@@ -49,7 +49,7 @@ class Staff
    * 
    * @access public
    */
-  public function changeData()
+  public function editEmployeeController()
   {
     header('Content-type: application/json');
 
@@ -66,19 +66,19 @@ class Staff
    * 
    * @access public
    */
-  public function deleteEmployee()
+  public function deleteEmployeeController()
   {
     header('Content-type: application/json');
 
     $employee_id = $_REQUEST["id"];
     
-    deleteEmployeeInDb($this->connection_to_db, $employee_id);
+    deleteEmployee($this->connection_to_db, $employee_id);
   }
 }
 
 $testStaff = new Staff("test", $conn);
-$testStaff->sendData();
-// $testStaff->changeData();
-// $testStaff->deleteEmployee();
+$testStaff->findEmployeesController();
+// $testStaff->editEmployeeController();
+// $testStaff->deleteEmployeeController();
 
 ?>
