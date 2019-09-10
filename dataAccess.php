@@ -52,25 +52,28 @@ function getTotalOfEmployees($connection)
  * @param integer $id           id of the employee whose data needs to be changed
  * @param string/integer $data  the modified data to be saved in the database
  */
-function changeDataInDb($connection, $field, $id, $data)
+function editEmployee($connection, $employee_modification)
 {
-  $sql;
+  $sql = null;
+  $id = $employee_modification["id"];
+  $field = $employee_modification["field_name"];
+  $field_value = $employee_modification["field_value"];
 
   if ($field === "salary") {
-    $sql = "UPDATE salaries SET salary = $data WHERE emp_no = $id";
+    $sql = "UPDATE salaries SET salary = $field_value WHERE emp_no = $id";
   } elseif ($field === "title") {
-    $sql = "UPDATE titles SET title = '$data' WHERE emp_no = $id";
+    $sql = "UPDATE titles SET title = '$field_value' WHERE emp_no = $id";
   } elseif ($field === "dept_name") {
-    $num = getDepartmentNumber($connection, $data);
+    $num = getDepartmentNumber($connection, $field_value);
     $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
   } elseif ($field === "birth_date") {
-    $sql = "UPDATE employees SET birth_date = '$data' WHERE emp_no = $id";
+    $sql = "UPDATE employees SET birth_date = '$field_value' WHERE emp_no = $id";
   } elseif ($field === "first_name") {
-    $sql = "UPDATE employees SET first_name = '$data' WHERE emp_no = $id";
+    $sql = "UPDATE employees SET first_name = '$field_value' WHERE emp_no = $id";
   } elseif ($field === "last_name") {
-    $sql = "UPDATE employees SET last_name = '$data' WHERE emp_no = $id";
+    $sql = "UPDATE employees SET last_name = '$field_value' WHERE emp_no = $id";
   } elseif ($field === "hire_date") {
-    $sql = "UPDATE employees SET hire_date = '$data' WHERE emp_no = $id";
+    $sql = "UPDATE employees SET hire_date = '$field_value' WHERE emp_no = $id";
   }
 
   if (mysqli_query($connection, $sql)) {

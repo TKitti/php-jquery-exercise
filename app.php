@@ -56,7 +56,7 @@ class Staff
     $json_str = file_get_contents('php://input');
     $req_body = json_decode($json_str);
 
-    convertData($this->connection_to_db, $req_body);
+    getRequestBodyValues($this->connection_to_db, $req_body);
   }
 
 
@@ -77,8 +77,8 @@ class Staff
 }
 
 $testStaff = new Staff("test", $conn);
-$testStaff->sendData();
-// $testStaff->changeData();
+// $testStaff->sendData();
+$testStaff->changeData();
 // $testStaff->deleteEmployee();
 
 ?>
