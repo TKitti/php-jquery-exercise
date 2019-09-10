@@ -1,7 +1,7 @@
 <?php
 include "config.php";
-require "service.php";
-require "dataAccess.php";
+require "employeeService.php";
+require "employeeRepository.php";
 
 /**
  * Staff_Class holds information about employees
@@ -77,8 +77,8 @@ class Staff
 }
 
 $testStaff = new Staff("test", $conn);
-// $testStaff->sendData();
-$testStaff->changeData();
+$testStaff->sendData();
+// $testStaff->changeData();
 // $testStaff->deleteEmployee();
 
 ?>

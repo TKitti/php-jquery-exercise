@@ -40,7 +40,7 @@ $(document).ready(function() {
  */
 function getEmployeeData (offset, limit) {
   $.ajax({
-    url: `app.php?employeesPerPage=${limit}&firstEmployeeToShow=${offset}`,
+    url: `employeeController.php?employeesPerPage=${limit}&firstEmployeeToShow=${offset}`,
     type: 'get',
     dataType: 'JSON',
     success: function(response) {
