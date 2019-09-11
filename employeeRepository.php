@@ -57,21 +57,29 @@ function editEmployee($employee_modification)
   $field = $employee_modification["field_name"];
   $field_value = $employee_modification["field_value"];
 
-  if ($field === "salary") {
-    $sql = "UPDATE salaries SET salary = $field_value WHERE emp_no = $id";
-  } elseif ($field === "title") {
-    $sql = "UPDATE titles SET title = '$field_value' WHERE emp_no = $id";
-  } elseif ($field === "dept_name") {
-    $num = findDepartmentNumber($field_value);
-    $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
-  } elseif ($field === "birth_date") {
-    $sql = "UPDATE employees SET birth_date = '$field_value' WHERE emp_no = $id";
-  } elseif ($field === "first_name") {
-    $sql = "UPDATE employees SET first_name = '$field_value' WHERE emp_no = $id";
-  } elseif ($field === "last_name") {
-    $sql = "UPDATE employees SET last_name = '$field_value' WHERE emp_no = $id";
-  } elseif ($field === "hire_date") {
-    $sql = "UPDATE employees SET hire_date = '$field_value' WHERE emp_no = $id";
+  switch ($field) {
+    case 'salary':
+      $sql = "UPDATE salaries SET salary = $field_value WHERE emp_no = $id";
+      break;
+    case 'title':
+      $sql = "UPDATE titles SET title = '$field_value' WHERE emp_no = $id";
+      break;
+    case 'dept_name':
+      $num = findDepartmentNumber($field_value);
+      $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
+      break;
+    case 'birth_date':
+      $sql = "UPDATE employees SET birth_date = '$field_value' WHERE emp_no = $id";
+      break;
+    case 'first_name':
+      $sql = "UPDATE employees SET first_name = '$field_value' WHERE emp_no = $id";
+      break;
+    case 'last_name':
+      $sql = "UPDATE employees SET last_name = '$field_value' WHERE emp_no = $id";
+      break;
+    case 'hire_date':
+      $sql = "UPDATE employees SET hire_date = '$field_value' WHERE emp_no = $id";
+      break;
   }
 
   if (mysqli_query($conn, $sql)) {
