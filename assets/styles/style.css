@@ -1,10 +1,20 @@
+body {
+  background-color: lavender;
+}
+
+.container {
+  width: 75%;
+  margin: 0 auto;
+}
+
 .cancel-btn {
   margin: 15px 0;
 }
 
 .table-container {
-  width: 75%;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 table, th, td {
@@ -14,6 +24,7 @@ table, th, td {
 table {
   border-collapse: collapse;
   margin-right: 0;
+  background-color: aliceblue;
 }
 
 th {
@@ -31,4 +42,17 @@ th, td {
 .page-navigation {
   margin-top: 10px;
   text-align: center;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  background-color: mediumpurple;
+  color: white;
+  font-size: 16px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
 }

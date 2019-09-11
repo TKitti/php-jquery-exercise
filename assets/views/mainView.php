@@ -22,10 +22,10 @@
         <option value="title">Title</option>
         <option value="department">Department</option>
       </select>
-      <button class="search-btn">search</button>
+      <button class="search-btn btn">search</button>
     </div>
 
-    <button class="cancel-btn">cancel search</button>
+    <button class="cancel-btn btn">cancel search</button>
     
     <div class="table-container">
       <table id="employeesTable">
@@ -43,8 +43,8 @@
         <tbody class="table-body"></tbody>
       </table>
       <div class="page-navigation">
-        <button class="prev-btn">prev</button>
-        <button class="next-btn">next</button>
+        <button class="prev-btn btn">prev</button>
+        <button class="next-btn btn">next</button>
       </div>
     </div>
   </div>
