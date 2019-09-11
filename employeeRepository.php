@@ -1,5 +1,7 @@
 <?php
 
+include "config.php";
+
 /**
  * gets all necessary data from database
  * 
@@ -8,15 +10,16 @@
  * @param integer $first_employee_to_show  from which row data is retrieved
  * @return array data about employees
  */
-function findEmployees($connection, $employees_per_page, $first_employee_to_show)
+function findEmployees($employees_per_page, $first_employee_to_show)
 {
+  global $conn;
   $sql = "SELECT first_name, last_name, gender, birth_date, hire_date, titles.title, departments.dept_name, salaries.salary FROM employees LEFT JOIN dept_emp on employees.emp_no = dept_emp.emp_no LEFT JOIN departments on dept_emp.dept_no = departments.dept_no LEFT JOIN titles on employees.emp_no = titles.emp_no LEFT JOIN salaries on employees.emp_no = salaries.emp_no LIMIT $employees_per_page OFFSET $first_employee_to_show";
-  $total_employees = countEmployees($connection);
+  $total_employees = countEmployees();
   $response = [];
 
   $response[] = array("total" => $total_employees);
 
-  if ($result = mysqli_query($connection, $sql)) {
+  if ($result = mysqli_query($conn, $sql)) {
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         $response[] = $row;
@@ -36,10 +39,11 @@ function findEmployees($connection, $employees_per_page, $first_employee_to_show
  * @param object $connection  which database the program connects to
  * @return integer total number of employees
  */
-function countEmployees($connection)
+function countEmployees()
 {
+  global $conn;
   $sql = "SELECT COUNT(*) as total FROM employees";
-  $result = mysqli_query($connection, $sql);
+  $result = mysqli_query($conn, $sql);
   $fetch_result = mysqli_fetch_array($result);
   return $fetch_result['total'];
 }
@@ -50,8 +54,9 @@ function countEmployees($connection)
  * @param object $connection             which database the program connects to
  * @param object $employee_modification  id of the employee, the column in the database and modified value 
  */
-function editEmployee($connection, $employee_modification)
+function editEmployee($employee_modification)
 {
+  global $conn;
   $sql = null;
   $id = $employee_modification["id"];
   $field = $employee_modification["field_name"];
@@ -62,7 +67,7 @@ function editEmployee($connection, $employee_modification)
   } elseif ($field === "title") {
     $sql = "UPDATE titles SET title = '$field_value' WHERE emp_no = $id";
   } elseif ($field === "dept_name") {
-    $num = findDepartmentNumber($connection, $field_value);
+    $num = findDepartmentNumber($field_value);
     $sql = "UPDATE dept_emp SET dept_no = $num WHERE emp_no = $id";
   } elseif ($field === "birth_date") {
     $sql = "UPDATE employees SET birth_date = '$field_value' WHERE emp_no = $id";
@@ -74,10 +79,10 @@ function editEmployee($connection, $employee_modification)
     $sql = "UPDATE employees SET hire_date = '$field_value' WHERE emp_no = $id";
   }
 
-  if (mysqli_query($connection, $sql)) {
+  if (mysqli_query($conn, $sql)) {
     echo "Record was updated successfully.";
   } else {
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
   }
 }
 
@@ -88,12 +93,13 @@ function editEmployee($connection, $employee_modification)
  * @param string $department_name    department name
  * @return integer department number
  */
-function findDepartmentNumber($connection, $department_name)
+function findDepartmentNumber($department_name)
 {
+  global $conn;
   $sql = "SELECT dept_no FROM departments WHERE dept_name = '$department_name'";
   $response = [];
 
-  if ($result = mysqli_query($connection, $sql)) {
+  if ($result = mysqli_query($conn, $sql)) {
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         $response = $row;
@@ -113,14 +119,15 @@ function findDepartmentNumber($connection, $department_name)
  * @param object $connection  which database the program connects to
  * @param integer $id         id of the employee whose data needs to be deleted
  */
-function deleteEmployee($connection, $id)
+function deleteEmployee($id)
 {
+  global $conn;
   $sql = "DELETE FROM employees WHERE emp_no = $id";
 
-  if (mysqli_query($connection, $sql)) {
+  if (mysqli_query($conn, $sql)) {
     echo "Record was deleted successfully.";
   } else {
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
   }
 }
 

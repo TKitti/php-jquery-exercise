@@ -10,18 +10,8 @@ require "employeeRepository.php";
  * 
  * @access public
  */
-class Staff
+abstract class Staff
 {
-  public $name;
-  public $connection_to_db;
-
-  function __construct ($input_name, $input_connection)
-  {
-    $this->name = $input_name;
-    $this->connection_to_db = $input_connection;
-  }
-
-
   /**
    * retrieves data from query string
    * retrieves data from database access layer on the basis of data gained from query string
@@ -30,15 +20,16 @@ class Staff
    * 
    * @access public
    */
-  public function findEmployeesController()
+  public static function findEmployeesController()
   {
     $employees_per_page = $_REQUEST["employeesPerPage"];
     $first_employee_to_show = $_REQUEST["firstEmployeeToShow"];
     
-    $response = findEmployees($this->connection_to_db, $employees_per_page, $first_employee_to_show);
+    $response = findEmployees($employees_per_page, $first_employee_to_show);
     
     header('Content-type: application/json');
     echo json_encode($response);
+
   }
 
 
@@ -49,14 +40,17 @@ class Staff
    * 
    * @access public
    */
-  public function editEmployeeController()
+  public static function editEmployeeController()
   {
     header('Content-type: application/json');
 
     $json_str = file_get_contents('php://input');
     $req_body = json_decode($json_str);
 
-    getRequestBodyValues($this->connection_to_db, $req_body);
+    $employee_id = Staff::parseId($_SERVER['REQUEST_URI']);
+    
+
+    getRequestBodyValues($req_body, $employee_id);
   }
 
 
@@ -66,18 +60,24 @@ class Staff
    * 
    * @access public
    */
-  public function deleteEmployeeController()
+  public static function deleteEmployeeController()
   {
     header('Content-type: application/json');
 
-    $employee_id = $_REQUEST["id"];
+    $employee_id = Staff::parseId($_SERVER['REQUEST_URI']);
     
-    deleteEmployee($this->connection_to_db, $employee_id);
+    deleteEmployee($employee_id);
+  }
+
+  private static function parseId($uri)
+  {
+    $path = parse_url($uri, PHP_URL_PATH);
+    return explode('/', $path)[2];
   }
 }
 
-$testStaff = new Staff("test", $conn);
-$testStaff->findEmployeesController();
+// $testStaff = new Staff("test", $conn);
+// $testStaff->findEmployeesController();
 // $testStaff->editEmployeeController();
 // $testStaff->deleteEmployeeController();
 
