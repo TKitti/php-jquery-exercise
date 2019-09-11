@@ -25,7 +25,15 @@ abstract class Staff
     $employees_per_page = $_REQUEST["employeesPerPage"];
     $first_employee_to_show = $_REQUEST["firstEmployeeToShow"];
     
-    $response = findEmployees($employees_per_page, $first_employee_to_show);
+    $employees = findEmployees($employees_per_page, $first_employee_to_show);
+
+    $isPrevPage = $first_employee_to_show > 0;
+    $isNextPage = ($first_employee_to_show + $employees_per_page) < countEmployees();
+    $response = array(
+      "employees" => $employees,
+      "isPrevPage" => $isPrevPage,
+      "isNextPage" => $isNextPage
+    );
     
     header('Content-type: application/json');
     echo json_encode($response);

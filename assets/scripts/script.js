@@ -1,10 +1,8 @@
-let totalEmployees;
-
 /**
  * when DOM is ready for JavaScript code, table is rendered and prev,next buttons are available
  */
 $(document).ready(function() {
-  const employeesPerPage = 20;
+  const employeesPerPage = 5;
   let firstEmployeeToShow = 0;
 
   getEmployeeData(firstEmployeeToShow, employeesPerPage);
@@ -14,9 +12,6 @@ $(document).ready(function() {
    */
   $('.next-btn').click(function(){
     firstEmployeeToShow += employeesPerPage;
-    if (firstEmployeeToShow > totalEmployees) {
-      firstEmployeeToShow -= employeesPerPage;
-    }
     getEmployeeData(firstEmployeeToShow, employeesPerPage);
   });
 
@@ -25,9 +20,6 @@ $(document).ready(function() {
    */
   $('.prev-btn').click(function(){
     firstEmployeeToShow -= employeesPerPage;
-    if (firstEmployeeToShow < 0){
-      firstEmployeeToShow = 0;
-    }
     getEmployeeData(firstEmployeeToShow, employeesPerPage);
   });
 });
@@ -44,14 +36,15 @@ function getEmployeeData (offset, limit) {
     type: 'get',
     dataType: 'JSON',
     success: function(response) {
-      createTable(response);
+      createTable(response.employees);
+      setPaginationAvailability(response.isPrevPage, response.isNextPage);
     }
     /**
      * filter and sort functionalities are available after the client successfully received the data from the server
      */
   }).done(function(){
-    let arrowUp = $('.arrow-up');
-    let arrowDown = $('.arrow-down');
+    const arrowUp = $('.arrow-up');
+    const arrowDown = $('.arrow-down');
     arrowDown.hide();
 
     arrowUp.click(function() {
@@ -82,9 +75,6 @@ function createTable (data) {
   $('#employeesTable tbody tr').remove();
 
   for (let i = 0; i < data.length; i++) {
-    if (i == 0) {
-      totalEmployees = data[i]['total'];
-    } else {
       let firstName = data[i]['first_name'];
       let lastName = data[i]['last_name'];
       let gender = data[i]['gender'];
@@ -105,7 +95,6 @@ function createTable (data) {
         "</tr>";
   
       $('#employeesTable tbody').append(tr_str);
-    }
   }
 }
 
@@ -182,4 +171,9 @@ function filterTable() {
   hideUnmatchedRows();
   clearSearchField();
   clearDropdownMenu();
+}
+
+function setPaginationAvailability(isPrevPage, isNextPage) {
+  $('.next-btn').prop('disabled', !isNextPage);
+  $('.prev-btn').prop('disabled', !isPrevPage);
 }
