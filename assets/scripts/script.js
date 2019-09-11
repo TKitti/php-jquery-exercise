@@ -2,17 +2,17 @@
  * when DOM is ready for JavaScript code, table is rendered and prev,next buttons are available
  */
 $(document).ready(function() {
-  const employeesPerPage = 5;
+  const employeesPerPage = 20;
   let firstEmployeeToShow = 0;
 
-  getEmployeeData(firstEmployeeToShow, employeesPerPage);
+  getEmployees(firstEmployeeToShow, employeesPerPage);
   
   /**
    * shows the next amount of employees in the table
    */
   $('.next-btn').click(function(){
     firstEmployeeToShow += employeesPerPage;
-    getEmployeeData(firstEmployeeToShow, employeesPerPage);
+    getEmployees(firstEmployeeToShow, employeesPerPage);
   });
 
   /**
@@ -20,19 +20,20 @@ $(document).ready(function() {
    */
   $('.prev-btn').click(function(){
     firstEmployeeToShow -= employeesPerPage;
-    getEmployeeData(firstEmployeeToShow, employeesPerPage);
+    getEmployees(firstEmployeeToShow, employeesPerPage);
   });
 });
 
+
 /**
- * gets data about employees from the server
+ * gets name, gender, birth date, hire date, title, department and salary about employees from the server
  * 
- * @param {Number} offset  from which employee the data is received
- * @param {Number} limit   number of employees to be received
+ * @param {Number} firstEmployeeToShow  from which employee the data is received
+ * @param {Number} employeesPerPage     number of employees to be received
  */
-function getEmployeeData (offset, limit) {
+function getEmployees (firstEmployeeToShow, employeesPerPage) {
   $.ajax({
-    url: `employee?employeesPerPage=${limit}&firstEmployeeToShow=${offset}`,
+    url: `employee?employeesPerPage=${employeesPerPage}&firstEmployeeToShow=${firstEmployeeToShow}`,
     type: 'get',
     dataType: 'JSON',
     success: function(response) {
@@ -40,13 +41,16 @@ function getEmployeeData (offset, limit) {
       setPaginationAvailability(response.isPrevPage, response.isNextPage);
     }
     /**
-     * filter and sort functionalities are available after the client successfully received the data from the server
+     * filter and sort functionalities are available after the client successfully received employees from the server
      */
   }).done(function(){
     const arrowUp = $('.arrow-up');
     const arrowDown = $('.arrow-down');
     arrowDown.hide();
 
+    /**
+     * sorts table in descending order
+     */
     arrowUp.click(function() {
       const headerIndex = $(this).parent().index();
       sortByCategory(headerIndex, 'desc');
@@ -54,6 +58,9 @@ function getEmployeeData (offset, limit) {
       arrowDown.show();
     });
 
+    /**
+     * sorts table in ascending order
+     */
     arrowDown.click(function() {
       const headerIndex = $(this).parent().index();
       sortByCategory(headerIndex, 'asc');
@@ -66,8 +73,9 @@ function getEmployeeData (offset, limit) {
   });
 }
 
+
 /**
- * renders data in a table format
+ * renders employees in a table format
  * 
  * @param {Object} data  array of data about employees
  */
@@ -123,7 +131,7 @@ function sortByCategory(index, order) {
  */
 function hideUnmatchedRows() {
   $('.table-body > tr').each(function(){
-    let cellText = $(this).find("td").eq(getSelectedOption()).html().toLowerCase();
+    let cellText = $(this).find("td").eq(getIndexOfSelectedOption()).html().toLowerCase();
 
     if (cellText.indexOf(getSearchedText()) === -1) {
       $(this).hide();
@@ -145,7 +153,7 @@ function getSearchedText() {
  * 
  * @returns the position of the selected element in the dropdown menu
  */
-function getSelectedOption() {
+function getIndexOfSelectedOption() {
   return $('#filter-options').find(":selected").index();
 }
 
@@ -173,6 +181,12 @@ function filterTable() {
   clearDropdownMenu();
 }
 
+/**
+ * sets navigation buttons disabled when there are no more previous or subsequent employees to render in the table
+ * 
+ * @param {Boolean} isPrevPage  defines if there are more previous employees to show
+ * @param {Boolean} isNextPage  defines if there are more subsequent employees to show
+ */
 function setPaginationAvailability(isPrevPage, isNextPage) {
   $('.next-btn').prop('disabled', !isNextPage);
   $('.prev-btn').prop('disabled', !isPrevPage);

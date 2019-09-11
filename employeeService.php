@@ -1,11 +1,11 @@
 <?php
 
 /**
- * saves request body (json) values into object 
+ * saves request body (json) values into array
  * passes id, field and field value to database access layer in order to modify employee
  * 
- * @param object $connection  which database the program connects to
- * @param object $req_body    employee id and field to be modified
+ * @param object $req_body      employee field and its value
+ * @param integer $employee_id  employee id
  */
 function getRequestBodyValues($req_body, $employee_id)
 {
@@ -20,5 +20,4 @@ function getRequestBodyValues($req_body, $employee_id)
   
   editEmployee($employee_modification);
 }
-
 ?>

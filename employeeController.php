@@ -1,11 +1,9 @@
 <?php
-include "config.php";
 require "employeeService.php";
 require "employeeRepository.php";
 
 /**
  * Staff_Class holds information about employees
- * connects to a database where actual data is stored
  * makes it possible to perform actions on data about employees
  * 
  * @access public
@@ -13,10 +11,9 @@ require "employeeRepository.php";
 abstract class Staff
 {
   /**
-   * retrieves data from query string
-   * retrieves data from database access layer on the basis of data gained from query string
-   * sets header for response
-   * sends data about employees to the client
+   * retrieves data from database access layer on the basis of 
+   * how many employees and from which row should be rendered at once
+   * sends the data about employees to the client
    * 
    * @access public
    */
@@ -37,14 +34,14 @@ abstract class Staff
     
     header('Content-type: application/json');
     echo json_encode($response);
-
   }
 
 
   /**
-   * retrieves data as json from request body
+   * retrieves the employee data to be modified as a json from the request body
    * converts json string into json object
-   * passes object to service layer in order to change employee data
+   * retrieves employee id from the url
+   * passes object and employee id to the service layer in order to change employee data
    * 
    * @access public
    */
@@ -57,13 +54,12 @@ abstract class Staff
 
     $employee_id = Staff::parseId($_SERVER['REQUEST_URI']);
     
-
     getRequestBodyValues($req_body, $employee_id);
   }
 
 
   /**
-   * retrieves employee id from query string
+   * retrieves employee id from the url
    * passes id to database access layer in order to delete the selected employee
    * 
    * @access public
@@ -77,16 +73,11 @@ abstract class Staff
     deleteEmployee($employee_id);
   }
 
+
   private static function parseId($uri)
   {
     $path = parse_url($uri, PHP_URL_PATH);
     return explode('/', $path)[2];
   }
 }
-
-// $testStaff = new Staff("test", $conn);
-// $testStaff->findEmployeesController();
-// $testStaff->editEmployeeController();
-// $testStaff->deleteEmployeeController();
-
 ?>

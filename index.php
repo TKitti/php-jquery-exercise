@@ -2,23 +2,19 @@
 
 if (isset($_SERVER['REQUEST_METHOD'])) {
   if ($_SERVER['REQUEST_METHOD'] == "GET" && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) == "/") {
-    include "mainView.php";
+    include "assets/views/mainView.php";
   } else {
     require_once "employeeController.php";
 
-    $request = array(
-      "method" => $_SERVER['REQUEST_METHOD'],
-      "path" => $_SERVER['REQUEST_URI']
-    );
+    $request_method = $_SERVER['REQUEST_METHOD'];
   
-    if ($request["method"] == "GET") {
+    if ($request_method == "GET") {
       Staff::findEmployeesController();
-    } elseif ($request["method"] === "PUT") {
+    } elseif ($request_method === "PUT") {
       Staff::editEmployeeController();
-    } elseif ($request["method"] === "DELETE") {
+    } elseif ($request_method === "DELETE") {
       Staff::deleteEmployeeController();
     }
   }
 }
-
 ?>

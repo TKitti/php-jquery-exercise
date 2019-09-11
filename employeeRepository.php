@@ -1,12 +1,10 @@
 <?php
-
 include "config.php";
 
 /**
- * gets all necessary data from database
+ * gets name, gender, birth date, hire date, title, department and salary info about certain employees from the database
  * 
- * @param object $connection               which database the program connects to
- * @param integer $employees_per_page      number of rows to be retrieved from db
+ * @param integer $employees_per_page      number of rows to be retrieved from the database
  * @param integer $first_employee_to_show  from which row data is retrieved
  * @return array data about employees
  */
@@ -30,10 +28,10 @@ function findEmployees($employees_per_page, $first_employee_to_show)
   }
 }
 
+
 /**
  * gets the number of total employees in the database
  * 
- * @param object $connection  which database the program connects to
  * @return integer total number of employees
  */
 function countEmployees()
@@ -45,11 +43,11 @@ function countEmployees()
   return $fetch_result['total'];
 }
 
+
 /**
- * changes certain data about one employee in the database
+ * changes certain field value about one employee in the database
  * 
- * @param object $connection             which database the program connects to
- * @param object $employee_modification  id of the employee, the column in the database and modified value 
+ * @param object $employee_modification  employee id, the column in the database and the modified value 
  */
 function editEmployee($employee_modification)
 {
@@ -83,10 +81,10 @@ function editEmployee($employee_modification)
   }
 }
 
+
 /**
  * retrieves the department number belonging to one department from the database
  * 
- * @param object $connection         which database the program connects to
  * @param string $department_name    department name
  * @return integer department number
  */
@@ -110,11 +108,11 @@ function findDepartmentNumber($department_name)
   }
 }
 
+
 /**
  * deletes one employee record in table employees and records in related tables based on cascade delete
  * 
- * @param object $connection  which database the program connects to
- * @param integer $id         id of the employee whose data needs to be deleted
+ * @param integer $id  id of the employee whose data needs to be deleted
  */
 function deleteEmployee($id)
 {
@@ -127,5 +125,4 @@ function deleteEmployee($id)
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
   }
 }
-
 ?>
